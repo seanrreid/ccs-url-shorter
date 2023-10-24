@@ -26,6 +26,7 @@ router.register(r'urls', views.UrlViewSet)
 urlpatterns = [
     path('', include(router.urls)),
     path('admin/', admin.site.urls),
+    path('logout/', views.LogoutView.as_view(), name="logout"),
     path('token/',
          jwt_views.TokenObtainPairView.as_view(),
          name='token_obtain_pair'),
