@@ -29,7 +29,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('logout/', views.LogoutView.as_view(), name="logout"),
     path('token/',
-         jwt_views.TokenObtainPairView.as_view(),
+         views.CustomTokenObtainPairView.as_view(),
          name='token_obtain_pair'),
     path('token/refresh/',
          jwt_views.TokenRefreshView.as_view(),

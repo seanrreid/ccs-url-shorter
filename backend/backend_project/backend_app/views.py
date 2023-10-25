@@ -1,18 +1,23 @@
 from rest_framework import status, viewsets
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
 from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework_simplejwt.views import TokenObtainPairView
 from django.shortcuts import redirect
 
 from .models import Url
-from .serializers import UrlSerializer
+from .serializers import UrlSerializer, CustomTokenObtainPairSerializer
 
 # Create your views here.
 
 
+class CustomTokenObtainPairView(TokenObtainPairView):
+    serializer_class = CustomTokenObtainPairSerializer
+
+
 class UrlViewSet(viewsets.ModelViewSet):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticatedOrReadOnly]
 
     queryset = Url.objects.all().order_by('title')
     serializer_class = UrlSerializer
@@ -24,7 +29,8 @@ class RedirectView(APIView):
     def get(self, request, short_url):
         try:
             short_url = self.kwargs.get('short_url')
-            urlObject = Url.objects.filter(short_url=short_url).values('title', 'original_url')
+            urlObject = Url.objects.filter(
+                short_url=short_url).values('title', 'original_url')
             for item in urlObject:
                 original_url = item['original_url']
             response = redirect(original_url)
