@@ -12,9 +12,14 @@ export async function loader() {
 
 export default function Homet() {
     const { linkList } = useLoaderData();
+    console.log('linklist', Array.isArray(linkList));
     return (
         <>
-            <LinkList linkList={linkList} />
+            {Array.isArray(linkList) ? (
+                <LinkList linkList={linkList} />
+            ) : (
+                <p>Unable to get list of links.</p>
+            )}
         </>
     );
 }
