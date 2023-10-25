@@ -25,7 +25,7 @@ router.register(r'urls', views.UrlViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),
-    path('redirect/<str:short_url>', views.RedirectView.as_view(), name='url-redirect'),
+    path('snd/<str:short_url>', views.RedirectView.as_view(), name='url-redirect'),
     path('admin/', admin.site.urls),
     path('logout/', views.LogoutView.as_view(), name="logout"),
     path('token/',

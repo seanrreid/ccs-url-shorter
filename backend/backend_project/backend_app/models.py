@@ -10,10 +10,6 @@ class Url(models.Model):
     short_url = models.CharField(max_length=256)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
-    @property
-    def original_url_property(self):
-        return self.original_url
-
     def __str__(self):
         return self.title
 
