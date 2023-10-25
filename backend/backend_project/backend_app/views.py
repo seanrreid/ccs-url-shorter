@@ -12,7 +12,7 @@ from .serializers import UrlSerializer
 
 
 class UrlViewSet(viewsets.ModelViewSet):
-    # permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated]
 
     queryset = Url.objects.all().order_by('title')
     serializer_class = UrlSerializer
