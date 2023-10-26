@@ -1,10 +1,12 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
+import { useAuth } from '../AuthContext';
 import { Form } from '../components/UI/Form';
 import { Button } from '../components/UI/Button';
 
 export default function LoginPage() {
     const navigate = useNavigate();
+    const { setIsAuth } = useAuth();
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
 
@@ -39,6 +41,7 @@ export default function LoginPage() {
             localStorage.setItem('access_token', access);
             localStorage.setItem('refresh_token', refresh);
             console.log('LOGGED IN');
+            setIsAuth(true)
             return navigate(`/`);
         } catch (error) {
             console.error('ERROR: ', error);

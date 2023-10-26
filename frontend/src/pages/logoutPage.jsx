@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { useLoaderData, useNavigate } from 'react-router-dom';
+import { useAuth } from '../AuthContext';
 
 export async function loader() {
     const url = 'http://localhost:8000/logout/';
@@ -18,11 +19,13 @@ export async function loader() {
 }
 
 export default function LogoutPage() {
+    const { setIsAuth } = useAuth();
     const navigate = useNavigate();
     const { response } = useLoaderData();
 
     if (response.status === 205) {
         localStorage.clear();
+        setIsAuth(false)
     } else {
         console.error('ERROR', response.status, response.statusText);
     }
