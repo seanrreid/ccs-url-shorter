@@ -19,8 +19,9 @@ class CustomTokenObtainPairView(TokenObtainPairView):
 class UrlViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticatedOrReadOnly]
 
-    queryset = Url.objects.all().order_by('title')
+    queryset = Url.objects.all().filter(user_id=2).order_by('title')
     serializer_class = UrlSerializer
+
 
 
 class RedirectView(APIView):

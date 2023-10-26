@@ -10,7 +10,7 @@ const Column = styled.div`
 
 export async function loader() {
     try {
-        const url = 'http://localhost:8000/urls/';
+        const url = `${import.meta.env.VITE_API_URL}/urls/`;
         const linkList = await fetch(url, {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem('access_token')}`,
