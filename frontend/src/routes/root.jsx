@@ -1,8 +1,8 @@
-import { useState, useEffect } from 'react';
-import { Outlet, Link } from 'react-router-dom';
+import { Outlet } from 'react-router-dom';
 import { createGlobalStyle } from 'styled-components';
+import { AuthProvider } from '../AuthContext';
 import { Wrapper } from '../components/UI/Wrapper';
-import { Nav } from '../components/UI/Nav';
+import MainNav from '../components/MainNav';
 
 const GlobalStyle = createGlobalStyle`
     html {
@@ -45,35 +45,20 @@ const GlobalStyle = createGlobalStyle`
 `;
 
 export default function Root() {
-    const [isAuth, setIsAuth] = useState(false);
-    useEffect(() => {
-        if (localStorage.getItem('access_token') !== null) {
-            setIsAuth(true);
-        }
-        return;
-    }, [isAuth]);
-
     return (
-        <>
+        <AuthProvider>
             <GlobalStyle />
-            <h1>URL Shortening</h1>
-            <Wrapper>
-                <Nav>
-                    <ul>
-                        <li>{isAuth ? <Link to='/'>Home</Link> : null}</li>
-                        <li>
-                            {isAuth ? (
-                                <Link to='/logout'>Logout</Link>
-                            ) : (
-                                <Link to='/login'>Login</Link>
-                            )}
-                        </li>
-                    </ul>
-                </Nav>
-            </Wrapper>
-            <Wrapper>
-                <Outlet />
-            </Wrapper>
-        </>
+            <header>
+                <Wrapper>
+                    <h1>URL Shortening</h1>
+                    <MainNav />
+                </Wrapper>
+            </header>
+            <main>
+                <Wrapper>
+                    <Outlet />
+                </Wrapper>
+            </main>
+        </AuthProvider>
     );
 }

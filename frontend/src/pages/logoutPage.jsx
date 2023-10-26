@@ -28,6 +28,6 @@ export default function LogoutPage() {
     }
 
     useEffect(() => {
-        return navigate(`/login`, { replace: true });
+        return navigate(`/login`);
     }, [response, navigate]);
 }

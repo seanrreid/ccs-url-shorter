@@ -39,7 +39,7 @@ export default function LoginPage() {
             localStorage.setItem('access_token', access);
             localStorage.setItem('refresh_token', refresh);
             console.log('LOGGED IN');
-            return navigate(`/`, { replace: true });
+            return navigate(`/`);
         } catch (error) {
             console.error('ERROR: ', error);
             return navigate(`/login`, { replace: true });
