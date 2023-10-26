@@ -1,26 +1,72 @@
+import { useState, useEffect } from 'react';
 import { Outlet, Link } from 'react-router-dom';
-import styled from 'styled-components';
-import { Wrapper } from '../components/Wrapper';
+import { createGlobalStyle } from 'styled-components';
+import { Wrapper } from '../components/UI/Wrapper';
+import { Nav } from '../components/UI/Nav';
 
-const Nav = styled.nav`
-    width: 100%;
-
-    ul {
-        display: flex;
-        list-style: none;
-        width: 100%;
+const GlobalStyle = createGlobalStyle`
+    html {
+        box-sizing: border-box;
     }
-`
+    *, *:before, *:after {
+        box-sizing: inherit;
+    }
+    body {
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        font-weight: 400;
+        line-height: 1.75;
+    }
+
+    p { margin-bottom: 1rem; }
+    h1, h2, h3, h4, h5 {
+        margin: 3rem 0 1.38rem;
+        font-weight: 400;
+        line-height: 1.3;
+    }
+    h1 {
+        margin-top: 0;
+        font-size: 3.052rem;
+        font-weight: 700;
+    }
+    h2 { font-size: 2.441rem; }
+    h3 { font-size: 1.953rem; }
+    h4 { font-size: 1.563rem; }
+    h5 { font-size: 1.25rem;}
+    button, button:focus{
+        outline: none;
+        background: transparent;
+        border: 1px solid transparent;
+    }
+    button:active{
+        outline: none;
+        background: transparent;
+        border: 1px solid grey;
+    }
+`;
 
 export default function Root() {
+    const [isAuth, setIsAuth] = useState(false);
+    useEffect(() => {
+        if (localStorage.getItem('access_token') !== null) {
+            setIsAuth(true);
+        }
+        return;
+    }, [isAuth]);
+
     return (
         <>
+            <GlobalStyle />
             <h1>URL Shortening</h1>
             <Wrapper>
                 <Nav>
                     <ul>
+                        <li>{isAuth ? <Link to='/'>Home</Link> : null}</li>
                         <li>
-                            <Link to='/'>Home</Link>
+                            {isAuth ? (
+                                <Link to='/logout'>Logout</Link>
+                            ) : (
+                                <Link to='/login'>Login</Link>
+                            )}
                         </li>
                     </ul>
                 </Nav>

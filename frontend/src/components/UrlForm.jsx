@@ -1,46 +1,52 @@
 import { useRef } from 'react';
+import { useRevalidator } from 'react-router-dom';
 import { nanoid } from 'nanoid';
+import { Form } from './UI/Form';
+import { Button } from './UI/Button';
 
 export default function UrlForm() {
-    const form = useRef(null);
+    const revalidator = useRevalidator();
+    const updateForm = useRef(null);
     const auth = localStorage.getItem('access_token');
+    const userId = localStorage.getItem('user_id');
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const formData = new FormData(form.current);
+        const formData = new FormData(updateForm.current);
 
         const apiUrl = 'http://localhost:8000/urls/';
-        const data = await fetch(apiUrl, {
+        await fetch(apiUrl, {
             method: 'POST',
             headers: {
-                Authorization: `Bearer ${auth}}`,
+                Authorization: `Bearer ${auth}`,
             },
             body: formData,
-        }).then((response) => response.json());
-        console.log('DATA', data);
+        });
+        updateForm.current.reset();
+        revalidator.revalidate();
     };
 
     return (
-        <form onSubmit={handleSubmit}>
+        <Form onSubmit={handleSubmit} ref={updateForm}>
             <label>
-                Link Title
+                Link title
                 <input
                     type='text'
                     name='title'
-                    value=''
+                    placeholder='Title of the Site'
                 />
             </label>
             <label>
-                Link Original URL
+                Link you want to shorten
                 <input
                     type='url'
-                    name='url'
-                    value=''
+                    name='original_url'
+                    placeholder='https://website.com'
                 />
             </label>
-            <input type="hidden" name="short_url" value={nanoid(4)} />
-            <input type="hidden" name="user" value="2" />
-            <button type='submit'>Add URL</button>
-        </form>
+            <input type='hidden' name='short_url' value={nanoid(8)} />
+            <input type='hidden' name='user' value={userId} />
+            <Button type='submit'>Add URL</Button>
+        </Form>
     );
 }

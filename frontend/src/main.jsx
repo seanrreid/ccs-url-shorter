@@ -4,6 +4,8 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import Root from './routes/root';
 import ErrorPage from './pages/errorPage';
 import Home, { loader as homeLoader } from './pages/homePage';
+import LoginPage from './pages/loginPage';
+import LogoutPage, { loader as logoutLoader } from './pages/logoutPage';
 
 const router = createBrowserRouter([
     {
@@ -16,11 +18,17 @@ const router = createBrowserRouter([
                 element: <Home />, // This is our "homepage" component that should load as the index page for the index route
                 loader: homeLoader,
             },
+            {
+                path: 'login/',
+                element: <LoginPage />,
+            },
+            {
+                path: 'logout/',
+                element: <LogoutPage />,
+                loader: logoutLoader,
+            },
         ],
     },
-    {
-        path: 'login/',
-    }
 ]);
 
 ReactDOM.createRoot(document.getElementById('root')).render(
