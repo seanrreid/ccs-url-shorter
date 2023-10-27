@@ -16,6 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from rest_framework import routers
 from backend_project.backend_app import views
 from rest_framework_simplejwt import views as jwt_views
@@ -35,3 +36,5 @@ urlpatterns = [
          jwt_views.TokenRefreshView.as_view(),
          name='token_refresh'),
 ]
+
+urlpatterns += staticfiles_urlpatterns()
