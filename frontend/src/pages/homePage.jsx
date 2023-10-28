@@ -1,4 +1,5 @@
 import { redirect, useLoaderData } from 'react-router-dom';
+import {useRefreshToken} from '../hooks/useRefreshToken'
 import styled from 'styled-components';
 import LinkList from '../components/LinkList';
 import UrlForm from '../components/UrlForm';
@@ -27,10 +28,16 @@ export async function loader() {
 
 export default function Home() {
     const { linkList } = useLoaderData();
+    const { accessToken, setAccessToken } = useRefreshToken();
+
+    const handleClick = () => {
+        console.log(accessToken)
+    };
 
     return (
         <>
             <Column>
+                <button onClick={handleClick}>Click Me To Refresh</button>
                 <UrlForm />
             </Column>
             <Column>
